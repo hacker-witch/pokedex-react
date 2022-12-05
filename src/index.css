@@ -82,6 +82,7 @@ body {
 }
 
 .app {
+  padding: 2.625rem 2.5rem 0 2.5rem;
   background-image: url(./assets/pokeball.png);
   background-repeat: no-repeat;
   background-size: 25.875rem;
