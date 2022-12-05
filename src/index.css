@@ -74,3 +74,7 @@
   --weight-normal: #57b2dc;
   --weight-heavy: #5a92a5;
 }
+
+body {
+  background-color: var(--background-main);
+}
