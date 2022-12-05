@@ -77,4 +77,12 @@
 
 body {
   background-color: var(--background-main);
+  margin: 0;
+}
+
+.app {
+  background-image: url(./assets/pokeball.png);
+  background-repeat: no-repeat;
+  background-size: 25.875rem;
+  background-position: top;
 }

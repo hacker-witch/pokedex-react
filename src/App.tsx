@@ -1,6 +1,7 @@
 function App() {
-
-  return null
+  return (
+    <main className="app"></main>
+  )
 }
 
 export default App
