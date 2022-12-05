@@ -3,3 +3,74 @@
 *::after {
   box-sizing: border-box;
 }
+
+:root {
+  --main-font: "Roboto", sans-serif;
+
+  --primary-color: #EA5D60;
+
+  --type-bug: #8CB230;
+  --type-dark: #58575F;
+  --type-dragon: #0F6AC0;
+  --type-electric: #EED535;
+  --type-fairy: #ED6EC7;
+  --type-fighting: #D04164;
+  --type-fire: #FD7D24;
+  --type-flying: #748FC9;
+  --type-ghost: #556AAE;
+  --type-grass: #62B957;
+  --type-ground: #DD7748;
+  --type-ice: #61CEC0;
+  --type-normal: #9DA0AA;
+  --type-poison: #A552CC;
+  --type-psychic: #EA5D60;
+  --type-rock: #BAAB82;
+  --type-steel: #417D9A;
+  --type-water: #4A90DA;
+
+  --background-type-bug: #8BD674;
+  --background-type-dark: #6F6E78;
+  --background-type-dragon: #7383B9;
+  --background-type-electric: #F2CB55;
+  --background-type-fairy: #EBA8C3;
+  --background-type-fighting: #EB4971;
+  --background-type-fire: #FFA756;
+  --background-type-flying: #83A2E3;
+  --background-type-ghost: #8571BE;
+  --background-type-grass: #8BBE8A;
+  --background-type-ground: #F78551;
+  --background-type-ice: #91D8DF;
+  --background-type-normal: #B5B9C4;
+  --background-type-poison: #9F6E97;
+  --background-type-psychic: #FF6568;
+  --background-type-rock: #D4C294;
+  --background-type-steel: #4C91B2;
+  --background-type-water: #58ABF6;
+
+  --background-main: #fff;
+  --background-default-input: #f2f2f2;
+  --background-pressed-input: #e2e2e2;
+  --background-modal: #17171b50;
+
+  --gradient-vector: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  --gradient-pokeball: linear-gradient(180deg, #F5F5F5 50%, #FFFFFF 94.81%);
+  --gradient-vector-grey: linear-gradient(100.59deg, #E5E5E5 0%, rgba(245, 245, 245, 0) 100%);
+  --gradient-pokeball-grey: linear-gradient(135deg, #ECECEC 0%, #F5F5F5 100%);
+  --gradient-vector-white: linear-gradient(100.84deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  --gradient-pokeball-white: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  --gradient-name: linear-gradient(180deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 76.04%);
+  --gradient-pokemon-circle: linear-gradient(334.58deg, rgba(255, 255, 255, 0.35) 16.24%, rgba(255, 255, 255, 0) 44.6%);
+
+  --text-white: #fff;
+  --text-black: #17171b;
+  --text-grey: #747476;
+  --text-number: #17171b40;
+
+  --height-short: #ffc5e6;
+  --height-medium: #aebfd7;
+  --height-tall: #aaacb8;
+
+  --weight-light: #99cd7c;
+  --weight-normal: #57b2dc;
+  --weight-heavy: #5a92a5;
+}
