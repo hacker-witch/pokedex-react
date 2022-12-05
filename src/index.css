@@ -78,6 +78,7 @@
 body {
   background-color: var(--background-main);
   margin: 0;
+  font-family: var(--main-font);
 }
 
 .app {
@@ -85,4 +86,10 @@ body {
   background-repeat: no-repeat;
   background-size: 25.875rem;
   background-position: top;
+}
+
+.app__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
 }
