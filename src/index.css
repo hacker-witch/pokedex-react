@@ -64,7 +64,7 @@
   --text-white: #fff;
   --text-black: #17171b;
   --text-grey: #747476;
-  --text-number: #17171b40;
+  --text-number: hsla(240, 8%, 10%, 0.6);
 
   --height-short: #ffc5e6;
   --height-medium: #aebfd7;
