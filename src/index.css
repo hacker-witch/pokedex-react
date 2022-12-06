@@ -116,7 +116,7 @@ body {
 
 .pokemon-species-card {
   display: flex;
-  position: relative;
+  justify-content: space-between;
   padding: 1.25rem;
   border-radius: 10px;
 }
@@ -158,10 +158,16 @@ body {
 }
 
 .pokemon-species-card__image {
-  width: 8.125rem;
+  width: 100%;
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  left: 0.625rem;
+  bottom: -0.625rem;
+}
+
+.pokemon-species-card__image-container {
+  position: relative;
+  flex-shrink: 1;
+  width: 8.125rem;
 }
 
 .type-badge {

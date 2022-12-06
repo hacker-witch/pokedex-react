@@ -82,7 +82,9 @@ const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
             </li>
         </ul>
       </div>
-      <img className="pokemon-species-card__image" src={species.imageUrl} alt="" />
+      <div className="pokemon-species-card__image-container">
+        <img className="pokemon-species-card__image" src={species.imageUrl} alt="" />
+      </div>
     </article>
   )
 }
