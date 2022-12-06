@@ -82,11 +82,18 @@ body {
 }
 
 .app {
-  padding: 2.625rem 2.5rem 0 2.5rem;
+  padding: 2.625rem 1rem 0 1rem;
   background-image: url(./assets/pokeball.png);
   background-repeat: no-repeat;
   background-size: 25.875rem;
   background-position: top;
+}
+
+@media (min-width: 400px) {
+  .app {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
 }
 
 .app__title {
