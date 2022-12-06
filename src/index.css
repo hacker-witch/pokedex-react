@@ -89,7 +89,7 @@ body {
   background-position: top;
 }
 
-@media (min-width: 400px) {
+@media (min-width: 25rem) {
   .app {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
