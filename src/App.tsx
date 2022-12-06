@@ -1,5 +1,3 @@
-/// <reference types="vite-plugin-svgr/client" />
-
 import { ReactComponent as GrassIcon } from './assets/types/grass.svg'
 import { ReactComponent as PoisonIcon } from './assets/types/poison.svg'
 import { ReactComponent as FireIcon } from './assets/types/fire.svg'
