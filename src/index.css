@@ -34,10 +34,10 @@
   --background-type-electric: hsl(45, 86%, 64%);
   --background-type-fairy: hsl(336, 63%, 79%);
   --background-type-fighting: hsl(345, 80%, 60%);
-  --background-type-fire: hsl(29, 100%, 67%);
+  --background-type-fire: 29, 100%, 67%;
   --background-type-flying: hsl(221, 63%, 70%);
   --background-type-ghost: hsl(256, 37%, 59%);
-  --background-type-grass: hsl(119, 29%, 64%);
+  --background-type-grass: 119, 29%, 64%;
   --background-type-ground: hsl(19, 92%, 64%);
   --background-type-ice: hsl(185, 55%, 72%);
   --background-type-normal: hsl(225, 12%, 74%);
@@ -135,19 +135,19 @@ body {
 }
 
 .pokemon-species-card--grass::after {
-  box-shadow: 0px 10px 20px 0px hsla(119, 29%, 64%, 0.4);
+  box-shadow: 0px 10px 20px 0px hsla(var(--background-type-grass), 0.4);
 }
 
 .pokemon-species-card--fire::after {
-  box-shadow: 0px 10px 20px 0px hsla(29, 100%, 67%, 0.4);
+  box-shadow: 0px 10px 20px 0px hsla(var(--background-type-fire), 0.4);
 }
 
 .pokemon-species-card--grass {
-  background-color: var(--background-type-grass);
+  background-color: hsl(var(--background-type-grass));
 }
 
 .pokemon-species-card--fire {
-  background-color: var(--background-type-fire);
+  background-color: hsl(var(--background-type-fire));
 }
 
 .pokemon-species-card__entry-number {
