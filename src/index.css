@@ -117,11 +117,29 @@ body {
 .pokemon-species-card {
   display: flex;
   justify-content: space-between;
+  position: relative;
   padding: 1.25rem;
   border-radius: 10px;
   background-image: url('./assets/dots-1.svg'), url('./assets/pokeball-2.svg');
   background-repeat: no-repeat, no-repeat;
   background-position: 5.625rem 0.3125rem, right 0;
+}
+
+.pokemon-species-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 88%;
+  height: 5.6875rem;
+  z-index: -1;
+}
+
+.pokemon-species-card--grass::after {
+  box-shadow: 0px 10px 20px 0px hsla(119, 29%, 64%, 0.4);
+}
+
+.pokemon-species-card--fire::after {
+  box-shadow: 0px 10px 20px 0px hsla(29, 100%, 67%, 0.4);
 }
 
 .pokemon-species-card--grass {
