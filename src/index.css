@@ -83,7 +83,7 @@ body {
 
 .app {
   padding: 2.625rem 1rem 0 1rem;
-  background-image: url(./assets/pokeball.png);
+  background-image: url(./assets/pokeball-1.png);
   background-repeat: no-repeat;
   background-size: 25.875rem;
   background-position: top;
@@ -119,6 +119,9 @@ body {
   justify-content: space-between;
   padding: 1.25rem;
   border-radius: 10px;
+  background-image: url('./assets/dots-1.svg'), url('./assets/pokeball-2.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: 5.625rem 0.3125rem, right 0;
 }
 
 .pokemon-species-card--grass {
