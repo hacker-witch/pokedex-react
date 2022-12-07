@@ -1,43 +1,70 @@
+import { useQuery } from 'react-query'
+import { z } from 'zod'
 import { ReactComponent as GrassIcon } from './assets/types/grass.svg'
 import { ReactComponent as PoisonIcon } from './assets/types/poison.svg'
 import { ReactComponent as FireIcon } from './assets/types/fire.svg'
 
-function App() {
-  const pokemonSpeciesList = [
-    {
-      nationalPokedexEntryNumber: 1,
-      name: 'bulbasaur',
-      types: ['grass', 'poison'],
-      imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png'
-    },
-    {
-      nationalPokedexEntryNumber: 2,
-      name: 'ivysaur',
-      types: ['grass', 'poison'],
-      imageUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
-    },
-    {
-      nationalPokedexEntryNumber: 3,
-      name: 'venusaur',
-      types: ['grass', 'poison'],
-      imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png'
-    },
-    {
-      nationalPokedexEntryNumber: 4,
-      name: 'charmander',
-      types: ['fire'],
-      imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png'
-    }
-  ]
+const BASE_URL = 'https://pokeapi.co/api/v2'
 
-  return (
-    <main className="app">
-      <h1 className="app__title">Pokédex</h1>
-      <ul className="pokemon-species-list app__pokemon-species-list">
-        {pokemonSpeciesList.map(species => <li key={species.nationalPokedexEntryNumber}><PokemonSpeciesCard species={species} /></li>)}
-      </ul>
-    </main>
-  )
+const pokemonSpeciesResourceSchema = z.object({
+  name: z.string().min(1),
+  id: z.number().int().min(1)
+})
+
+const pokemonResourceSchema = z.object({
+  sprites: z.object({ 
+    other: z.object({
+      'official-artwork': z.object({
+        'front_default': z.string().url()
+      })
+    })  
+  }),
+  types: z.object({
+    type: z.object({
+      name: z.string().min(1)
+    })
+  }).array().nonempty()
+})
+
+const listAllSpecies = async () => {
+  let promises = []
+  for (let i = 1; i <= 20; i++) {
+    const promise = fetch(`${BASE_URL}/pokemon-species/${i}`)
+    promises.push(promise)
+  }
+
+  let responses = await Promise.all(promises)
+  const speciesList = (await Promise.all(responses.map(response => response.json())))
+    .map(data => pokemonSpeciesResourceSchema.parse(data))
+
+  promises = speciesList.map(species => fetch(`${BASE_URL}/pokemon/${species.name}`))
+  responses = await Promise.all(promises)
+  const pokemonList = (await Promise.all(responses.map(response => response.json())))
+    .map(data => pokemonResourceSchema.parse(data))
+
+  return pokemonList.map((pokemon, index) => ({ 
+    nationalPokedexEntryNumber: speciesList[index].id,
+    name: speciesList[index].name,
+    types: pokemon.types.map(({ type }) => type.name),
+    imageUrl: pokemon.sprites.other['official-artwork'].front_default
+  }))
+}
+
+function App() {
+  const { data: pokemonSpeciesList, status } = useQuery({ queryKey: ['pokemon-species'], queryFn: listAllSpecies })
+
+  if (status === 'success') {
+    return (
+      <main className="app">
+        <h1 className="app__title">Pokédex</h1>
+        <ul className="pokemon-species-list app__pokemon-species-list">
+          {pokemonSpeciesList.map(species => <li key={species.nationalPokedexEntryNumber}><PokemonSpeciesCard species={species} /></li>)}
+        </ul>
+      </main>
+    )
+  }
+
+  return null
 }
 
 type PokemonSpeciesProps = {
