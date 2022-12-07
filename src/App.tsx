@@ -1,5 +1,6 @@
 import { useQuery } from 'react-query'
 import { z } from 'zod'
+import type { PokemonType } from './PokemonType'
 import { TypeIcon } from './TypeIcon'
 
 const BASE_URL = 'https://pokeapi.co/api/v2'
@@ -19,7 +20,26 @@ const pokemonResourceSchema = z.object({
   }),
   types: z.object({
     type: z.object({
-      name: z.string().min(1)
+      name: z.enum([
+        'bug', 
+        'dark', 
+        'dragon', 
+        'electric', 
+        'fairy', 
+        'fighting', 
+        'fire', 
+        'flying',
+        'ghost',
+        'grass',
+        'ground',
+        'ice',
+        'normal',
+        'poison',
+        'psychic',
+        'rock',
+        'steel',
+        'water'
+      ])
     })
   }).array().nonempty()
 })
@@ -69,7 +89,7 @@ type PokemonSpeciesProps = {
   species: {
     nationalPokedexEntryNumber: number,
     name: string,
-    types: string[],
+    types: PokemonType[],
     imageUrl: string
   }
 }
