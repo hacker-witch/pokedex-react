@@ -134,14 +134,6 @@ body {
   z-index: -1;
 }
 
-.pokemon-species-card--grass::after {
-  box-shadow: 0px 10px 20px 0px hsla(var(--background-type-grass), 0.4);
-}
-
-.pokemon-species-card--fire::after {
-  box-shadow: 0px 10px 20px 0px hsla(var(--background-type-fire), 0.4);
-}
-
 $types: bug,
   dark,
   dragon,
@@ -164,6 +156,10 @@ $types: bug,
 @each $type in $types {
   .pokemon-species-card--#{$type} {
     background-color: hsl(var(--background-type-#{$type}))
+  }
+
+  .pokemon-species-card--#{$type}::after {
+    box-shadow: 0px 10px 20px 0px hsla(var(--background-type-#{$type}), 0.4);
   }
 }
 
