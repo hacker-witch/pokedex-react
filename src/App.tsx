@@ -95,10 +95,12 @@ const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
     ? FireIcon
     : () => null
   
+  const formattedNationalPokedexEntryNumber = `#${nationalPokedexEntryNumber.toString().padStart(3, '0')}`
+  
   return (
     <article className={`pokemon-species-card pokemon-species-card--${types[0]}`}>
       <div className="pokemon-species-card__info">
-        <p className="pokemon-species-card__entry-number">#00{nationalPokedexEntryNumber}</p>
+        <p className="pokemon-species-card__entry-number">{formattedNationalPokedexEntryNumber}</p>
         <h2 className="pokemon-species-card__name">{name}</h2>
         <ul className="pokemon-species-card__types">
             <li key={types[0]} className={`type-badge type-badge--${types[0]}`}>
