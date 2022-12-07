@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import type { PokemonType } from './PokemonType'
 import { TypeIcon } from './TypeIcon'
