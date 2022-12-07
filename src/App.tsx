@@ -1,8 +1,6 @@
 import { useQuery } from 'react-query'
 import { z } from 'zod'
-import { ReactComponent as GrassIcon } from './assets/types/grass.svg'
-import { ReactComponent as PoisonIcon } from './assets/types/poison.svg'
-import { ReactComponent as FireIcon } from './assets/types/fire.svg'
+import { TypeIcon } from './TypeIcon'
 
 const BASE_URL = 'https://pokeapi.co/api/v2'
 
@@ -78,22 +76,6 @@ type PokemonSpeciesProps = {
 
 const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
   const { nationalPokedexEntryNumber, name, types, imageUrl } = species
-
-  const TypeIcon1 = types[0] === 'grass'
-    ? GrassIcon
-    : types[0] === 'poison'
-    ? PoisonIcon
-    : types[0] === 'fire'
-    ? FireIcon
-    : () => null
-
-  const TypeIcon2 = types[1] === 'grass'
-    ? GrassIcon
-    : types[1] === 'poison'
-    ? PoisonIcon
-    : types[1] === 'fire'
-    ? FireIcon
-    : () => null
   
   const formattedNationalPokedexEntryNumber = `#${nationalPokedexEntryNumber.toString().padStart(3, '0')}`
   
@@ -104,10 +86,10 @@ const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
         <h2 className="pokemon-species-card__name">{name}</h2>
         <ul className="pokemon-species-card__types">
             <li key={types[0]} className={`type-badge type-badge--${types[0]}`}>
-              <TypeIcon1 className='type-badge__icon' /> {types[0]}
+              <TypeIcon type={types[0]} className='type-badge__icon' /> {types[0]}
             </li>
             <li key={types[1]} className={`type-badge type-badge--${types[1]}`}>
-              <TypeIcon2 className='type-badge__icon' /> {types[1]}
+              <TypeIcon type={types[1]} className='type-badge__icon' /> {types[1]}
             </li>
         </ul>
       </div>
