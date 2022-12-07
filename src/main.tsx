@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient } from '@tanstack/react-query'
 import { PersistedClient, PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { get, set, del } from 'idb-keyval'
 import App from './App'
 import './index.scss'
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       persistOptions = {{ persister }}
     >
       <App />
+      <ReactQueryDevtools />
     </PersistQueryClientProvider>
   </React.StrictMode>
 )
