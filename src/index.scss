@@ -212,16 +212,10 @@ $types: bug,
   font-size: 0.75rem;
 }
 
-.type-badge--grass {
-  background-color: var(--type-grass);
-}
-
-.type-badge--poison {
-  background-color: var(--type-poison);
-}
-
-.type-badge--fire {
-  background-color: var(--type-fire);
+@each $type in $types {
+  .type-badge--#{$type} {
+    background-color: var(--type-#{$type});
+  }
 }
 
 .type-badge__icon {
