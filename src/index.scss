@@ -28,24 +28,24 @@
   --type-steel: #417D9A;
   --type-water: #4A90DA;
 
-  --background-type-bug: hsl(106, 54%, 65%);
-  --background-type-dark: hsl(248, 4%, 45%);
-  --background-type-dragon: hsl(226, 33%, 59%);
-  --background-type-electric: hsl(45, 86%, 64%);
-  --background-type-fairy: hsl(336, 63%, 79%);
-  --background-type-fighting: hsl(345, 80%, 60%);
+  --background-type-bug: 106, 54%, 65%;
+  --background-type-dark: 248, 4%, 45%;
+  --background-type-dragon: 226, 33%, 59%;
+  --background-type-electric: 45, 86%, 64%;
+  --background-type-fairy: 336, 63%, 79%;
+  --background-type-fighting: 345, 80%, 60%;
   --background-type-fire: 29, 100%, 67%;
-  --background-type-flying: hsl(221, 63%, 70%);
-  --background-type-ghost: hsl(256, 37%, 59%);
+  --background-type-flying: 221, 63%, 70%;
+  --background-type-ghost: 256, 37%, 59%;
   --background-type-grass: 119, 29%, 64%;
-  --background-type-ground: hsl(19, 92%, 64%);
-  --background-type-ice: hsl(185, 55%, 72%);
-  --background-type-normal: hsl(225, 12%, 74%);
-  --background-type-poison: hsl(310, 20%, 53%);
-  --background-type-psychic: hsl(359, 100%, 70%);
-  --background-type-rock: hsl(43, 42%, 71%);
-  --background-type-steel: hsl(200, 40%, 50%);
-  --background-type-water: hsl(208, 90%, 65%);
+  --background-type-ground: 19, 92%, 64%;
+  --background-type-ice: 185, 55%, 72%;
+  --background-type-normal: 225, 12%, 74%;
+  --background-type-poison: 310, 20%, 53%;
+  --background-type-psychic: 359, 100%, 70%;
+  --background-type-rock: 43, 42%, 71%;
+  --background-type-steel: 200, 40%, 50%;
+  --background-type-water: 208, 90%, 65%;
 
   --background-main: #fff;
   --background-default-input: #f2f2f2;
@@ -142,12 +142,29 @@ body {
   box-shadow: 0px 10px 20px 0px hsla(var(--background-type-fire), 0.4);
 }
 
-.pokemon-species-card--grass {
-  background-color: hsl(var(--background-type-grass));
-}
+$types: bug,
+  dark,
+  dragon,
+  electric,
+  fairy,
+  fighting,
+  fire,
+  flying,
+  ghost,
+  grass,
+  ground,
+  ice,
+  normal,
+  poison,
+  psychic,
+  rock,
+  steel,
+  water;
 
-.pokemon-species-card--fire {
-  background-color: hsl(var(--background-type-fire));
+@each $type in $types {
+  .pokemon-species-card--#{$type} {
+    background-color: hsl(var(--background-type-#{$type}))
+  }
 }
 
 .pokemon-species-card__entry-number {
