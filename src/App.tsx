@@ -77,7 +77,7 @@ type PokemonSpeciesProps = {
 }
 
 const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
-  const types = species.types
+  const { nationalPokedexEntryNumber, name, types, imageUrl } = species
 
   const TypeIcon1 = types[0] === 'grass'
     ? GrassIcon
@@ -96,10 +96,10 @@ const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
     : () => null
   
   return (
-    <article className={`pokemon-species-card pokemon-species-card--${species.types[0]}`}>
+    <article className={`pokemon-species-card pokemon-species-card--${types[0]}`}>
       <div className="pokemon-species-card__info">
-        <p className="pokemon-species-card__entry-number">#00{species.nationalPokedexEntryNumber}</p>
-        <h2 className="pokemon-species-card__name">{species.name}</h2>
+        <p className="pokemon-species-card__entry-number">#00{nationalPokedexEntryNumber}</p>
+        <h2 className="pokemon-species-card__name">{name}</h2>
         <ul className="pokemon-species-card__types">
             <li key={types[0]} className={`type-badge type-badge--${types[0]}`}>
               <TypeIcon1 className='type-badge__icon' /> {types[0]}
