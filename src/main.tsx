@@ -33,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider 
       client={queryClient}
-      persistOptions = {{ persister }}
+      persistOptions = {{ persister, buster: '1' }}
     >
       <App />
       <ReactQueryDevtools />
