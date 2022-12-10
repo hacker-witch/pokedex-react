@@ -29,11 +29,16 @@ const queryClient = new QueryClient({
   }
 })
 
+let buster = '1'
+if (import.meta.env.DEV) {
+  buster = Math.random().toString()
+}
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <PersistQueryClientProvider 
       client={queryClient}
-      persistOptions = {{ persister, buster: '1' }}
+      persistOptions = {{ persister, buster }}
     >
       <App />
       <ReactQueryDevtools />
