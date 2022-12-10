@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import type { PokemonType } from './PokemonType'
 import { TypeIcon } from './TypeIcon'
@@ -52,7 +52,10 @@ const pokemonResourceSchema = z.object({
 })
 
 const listAllSpecies = async (page = 1) => {
-  let response = await fetch(`${BASE_URL}/pokemon-species`)
+  const limit = 20
+  const offset = limit * (page - 1)
+  let response = await fetch(`${BASE_URL}/pokemon-species/?offset=${offset}&limit=${limit}`)
+  
   const { results } = pokemonSpeciesUrlListSchema.parse(await response.json())
 
   let promises = []
@@ -76,9 +79,9 @@ const listAllSpecies = async (page = 1) => {
 }
 
 function App() {
-  const { data: pokemonSpeciesList, status } = useQuery({ 
+  const { data, status } = useInfiniteQuery({ 
     queryKey: ['pokemon-species'], 
-    queryFn: () => listAllSpecies() 
+    queryFn: ({ pageParam }) => listAllSpecies(pageParam) 
   })
 
   if (status === 'success') {
@@ -86,7 +89,13 @@ function App() {
       <main className="app">
         <h1 className="app__title">Pokédex</h1>
         <ul className="pokemon-species-list app__pokemon-species-list">
-          {pokemonSpeciesList.map(species => <li key={species.nationalPokedexEntryNumber}><PokemonSpeciesCard species={species} /></li>)}
+          {
+            data.pages.map(speciesList => (
+              speciesList.map(species => (
+                <li key={species.nationalPokedexEntryNumber}><PokemonSpeciesCard species={species} /></li>
+              ))
+            ))
+          }
         </ul>
       </main>
     )
