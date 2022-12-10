@@ -5,6 +5,13 @@ import { TypeIcon } from './TypeIcon'
 
 const BASE_URL = 'https://pokeapi.co/api/v2'
 
+const pokemonSpeciesUrlListSchema = z.object({
+  results: z.object({
+    name: z.string().min(1),
+    url: z.string().url()
+  }).array().nonempty()
+})
+
 const pokemonSpeciesResourceSchema = z.object({
   name: z.string().min(1),
   id: z.number().int().min(1)
@@ -44,12 +51,12 @@ const pokemonResourceSchema = z.object({
   }).array().nonempty()
 })
 
-const listAllSpecies = async () => {
+const listAllSpecies = async (page = 1) => {
+  let response = await fetch(`${BASE_URL}/pokemon-species`)
+  const { results } = pokemonSpeciesUrlListSchema.parse(await response.json())
+
   let promises = []
-  for (let i = 1; i <= 20; i++) {
-    const promise = fetch(`${BASE_URL}/pokemon-species/${i}`)
-    promises.push(promise)
-  }
+  promises = results.map(({ url }) => fetch(url))
 
   let responses = await Promise.all(promises)
   const speciesList = (await Promise.all(responses.map(response => response.json())))
@@ -69,7 +76,10 @@ const listAllSpecies = async () => {
 }
 
 function App() {
-  const { data: pokemonSpeciesList, status } = useQuery({ queryKey: ['pokemon-species'], queryFn: listAllSpecies })
+  const { data: pokemonSpeciesList, status } = useQuery({ 
+    queryKey: ['pokemon-species'], 
+    queryFn: () => listAllSpecies() 
+  })
 
   if (status === 'success') {
     return (
