@@ -1,4 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
+import { useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { z } from 'zod'
 import type { PokemonType } from './PokemonType'
 import { TypeIcon } from './TypeIcon'
@@ -6,6 +8,7 @@ import { TypeIcon } from './TypeIcon'
 const BASE_URL = 'https://pokeapi.co/api/v2'
 
 const pokemonSpeciesUrlListSchema = z.object({
+  count: z.number().int().gte(1),
   results: z.object({
     name: z.string().min(1),
     url: z.string().url()
@@ -56,7 +59,9 @@ const listAllSpecies = async (page = 1) => {
   const offset = limit * (page - 1)
   let response = await fetch(`${BASE_URL}/pokemon-species/?offset=${offset}&limit=${limit}`)
   
-  const { results } = pokemonSpeciesUrlListSchema.parse(await response.json())
+  const { results, count } = pokemonSpeciesUrlListSchema.parse(await response.json())
+  const numberOfPages = count / limit
+  const isLastPage = page === numberOfPages
 
   let promises = []
   promises = results.map(({ url }) => fetch(url))
@@ -70,19 +75,28 @@ const listAllSpecies = async (page = 1) => {
   const pokemonList = (await Promise.all(responses.map(response => response.json())))
     .map(data => pokemonResourceSchema.parse(data))
 
-  return pokemonList.map((pokemon, index) => ({ 
-    nationalPokedexEntryNumber: speciesList[index].id,
-    name: speciesList[index].name,
-    types: pokemon.types.map(({ type }) => type.name),
-    imageUrl: pokemon.sprites.other['official-artwork'].front_default
-  }))
+  return {
+    data: pokemonList.map((pokemon, index) => ({ 
+      nationalPokedexEntryNumber: speciesList[index].id,
+      name: speciesList[index].name,
+      types: pokemon.types.map(({ type }) => type.name),
+      imageUrl: pokemon.sprites.other['official-artwork'].front_default
+    })),
+    nextPage: isLastPage ? null : page + 1
+  }
 }
 
 function App() {
-  const { data, status } = useInfiniteQuery({ 
+  const [ lastPokemonRef, lastPokemonIsInView ] = useInView()
+  const { data, status, fetchNextPage } = useInfiniteQuery({ 
     queryKey: ['pokemon-species'], 
-    queryFn: ({ pageParam }) => listAllSpecies(pageParam) 
+    queryFn: ({ pageParam }) => listAllSpecies(pageParam),
+    getNextPageParam: lastPage => lastPage.nextPage
   })
+
+  if (lastPokemonIsInView) {
+    fetchNextPage()
+  }
 
   if (status === 'success') {
     return (
@@ -90,10 +104,16 @@ function App() {
         <h1 className="app__title">Pokédex</h1>
         <ul className="pokemon-species-list app__pokemon-species-list">
           {
-            data.pages.map(speciesList => (
-              speciesList.map(species => (
-                <li key={species.nationalPokedexEntryNumber}><PokemonSpeciesCard species={species} /></li>
-              ))
+            data.pages.map(({ data: pokemonSpeciesList }, pagesIndex, pages) => (
+              pokemonSpeciesList.map((species, speciesListIndex) => {
+                const isLastElement = pagesIndex === pages.length - 1 && speciesListIndex === pokemonSpeciesList.length - 1
+
+                return (
+                  <li key={species.nationalPokedexEntryNumber} ref={isLastElement ? lastPokemonRef : null}>
+                    <PokemonSpeciesCard species={species} />
+                  </li>
+                )
+              })
             ))
           }
         </ul>
