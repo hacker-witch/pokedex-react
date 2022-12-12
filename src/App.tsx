@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { listAllSpecies } from "./api-clients/pokeapi";
 import type { PokemonType } from "./PokemonType";
