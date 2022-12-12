@@ -32,7 +32,7 @@ const queryClient = new QueryClient({
   },
 });
 
-let buster = "1";
+let buster = "2";
 if (import.meta.env.DEV) {
   buster = Math.random().toString();
 }
