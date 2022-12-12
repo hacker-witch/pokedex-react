@@ -14,13 +14,19 @@ const pokemonSpeciesUrlListSchema = z.object({
       name: z.string().min(1),
       url: z.string().url(),
     })
-    .array()
-    .nonempty(),
+    .array(),
 });
 
 const pokemonSpeciesResourceSchema = z.object({
   name: z.string().min(1),
   id: z.number().int().min(1),
+  varieties: z
+    .object({
+      pokemon: z.object({
+        url: z.string(),
+      }),
+    })
+    .array(),
 });
 
 const pokemonResourceSchema = z.object({
@@ -82,7 +88,7 @@ const listAllSpecies = async (page = 1) => {
   ).map((data) => pokemonSpeciesResourceSchema.parse(data));
 
   promises = speciesList.map((species) =>
-    fetch(`${BASE_URL}/pokemon/${species.name}`)
+    fetch(species.varieties[0].pokemon.url)
   );
   responses = await Promise.all(promises);
   const pokemonList = (
