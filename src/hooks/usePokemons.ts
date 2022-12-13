@@ -1,13 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { listAllSpecies } from "../api-clients/pokeapi";
-import { PokemonType } from "../PokemonType";
 
-type Pokemon = {
-  nationalPokedexEntryNumber: number;
-  name: string;
-  types: PokemonType[];
-  imageUrl: string;
-};
+type PokemonList = Awaited<ReturnType<typeof listAllSpecies>>["data"];
 
 export const usePokemons = () => {
   const { data, status, ...rest } = useInfiniteQuery({
@@ -16,7 +10,7 @@ export const usePokemons = () => {
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
-  const initial: Pokemon[] = [];
+  const initial: PokemonList = [];
   const pokemons = data?.pages.reduce((acc, page) => {
     return acc.concat(page.data);
   }, initial);
