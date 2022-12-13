@@ -60,47 +60,66 @@ const pokemonResourceSchema = z.object({
 });
 
 const BASE_URL = "https://pokeapi.co/api/v2";
+const LIMIT = 20;
 
-const fetchPokemonSpeciesUrlPage = async (offset: number, limit: number) => {
+const fetchPokemonSpeciesUrlPage = async (page: number) => {
+  const offset = LIMIT * (page - 1);
+
   const response = await fetch(
-    `${BASE_URL}/pokemon-species/?offset=${offset}&limit=${limit}`
+    `${BASE_URL}/pokemon-species/?offset=${offset}&limit=${LIMIT}`
   );
 
   return pokemonSpeciesUrlListSchema.parse(await response.json());
 };
 
-export const fetchPokemonPage = async (page = 1) => {
-  const limit = 20;
-  const offset = limit * (page - 1);
+const fetchSpeciesPage = async (page: number) => {
+  const { results, count } = await fetchPokemonSpeciesUrlPage(page);
 
-  const { results, count } = await fetchPokemonSpeciesUrlPage(offset, limit);
-
-  const numberOfPages = count / limit;
+  const numberOfPages = count / LIMIT;
   const isLastPage = page === numberOfPages;
 
-  let promises = [];
-  promises = results.map(({ url }) => fetch(url));
+  const promises = results.map(({ url }) => fetch(url));
+  const responses = await Promise.all(promises);
 
-  let responses = await Promise.all(promises);
   const speciesList = (
     await Promise.all(responses.map((response) => response.json()))
   ).map((data) => pokemonSpeciesResourceSchema.parse(data));
 
-  promises = speciesList.map((species) =>
+  const speciesPage = {
+    data: speciesList,
+    nextPage: isLastPage ? null : page + 1,
+  };
+
+  return speciesPage;
+};
+
+const fetchPokemonVariantsFromSpeciesList = async (
+  speciesList: z.infer<typeof pokemonSpeciesResourceSchema>[]
+) => {
+  const promises = speciesList.map((species) =>
     fetch(species.varieties[0].pokemon.url)
   );
-  responses = await Promise.all(promises);
-  const pokemonList = (
+  const responses = await Promise.all(promises);
+  const pokemonVariants = (
     await Promise.all(responses.map((response) => response.json()))
   ).map((data) => pokemonResourceSchema.parse(data));
 
+  return pokemonVariants;
+};
+
+export const fetchPokemonPage = async (page = 1) => {
+  const { data: speciesList, nextPage } = await fetchSpeciesPage(page);
+  const pokemonVariants = await fetchPokemonVariantsFromSpeciesList(
+    speciesList
+  );
+
   return {
-    data: pokemonList.map((pokemon, index) => ({
+    data: pokemonVariants.map((pokemon, index) => ({
       nationalPokedexEntryNumber: speciesList[index].id,
       name: speciesList[index].name,
       types: pokemon.types.map(({ type }) => type.name),
       imageUrl: pokemon.sprites.other["official-artwork"].front_default,
     })),
-    nextPage: isLastPage ? null : page + 1,
+    nextPage,
   };
 };
