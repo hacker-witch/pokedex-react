@@ -31,7 +31,7 @@ const persister = {
   },
 };
 
-const cacheBuster = Math.random().toString();
+const cacheBuster = "0";
 
 const router = createBrowserRouter([
   {
