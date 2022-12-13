@@ -61,7 +61,7 @@ const pokemonResourceSchema = z.object({
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 
-export const listAllSpecies = async (page = 1) => {
+export const fetchPokemonPage = async (page = 1) => {
   const limit = 20;
   const offset = limit * (page - 1);
   let response = await fetch(

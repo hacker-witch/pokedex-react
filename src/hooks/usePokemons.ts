@@ -1,12 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { listAllSpecies } from "../api-clients/pokeapi";
+import { fetchPokemonPage } from "../api-clients/pokeapi";
 
-type PokemonList = Awaited<ReturnType<typeof listAllSpecies>>["data"];
+type PokemonList = Awaited<ReturnType<typeof fetchPokemonPage>>["data"];
 
 export const usePokemons = () => {
   const { data, status, ...rest } = useInfiniteQuery({
     queryKey: ["pokemon-species"],
-    queryFn: ({ pageParam }) => listAllSpecies(pageParam),
+    queryFn: ({ pageParam }) => fetchPokemonPage(pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
 
