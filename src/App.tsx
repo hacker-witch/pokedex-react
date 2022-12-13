@@ -23,7 +23,7 @@ function App() {
                 key={pokemon.nationalPokedexEntryNumber}
                 ref={isLastElement ? lastPokemonRef : null}
               >
-                <PokemonSpeciesCard species={pokemon} />
+                <PokemonCard pokemon={pokemon} />
               </li>
             );
           })}
@@ -36,7 +36,7 @@ function App() {
 }
 
 type PokemonSpeciesProps = {
-  species: {
+  pokemon: {
     nationalPokedexEntryNumber: number;
     name: string;
     types: PokemonType[];
@@ -44,8 +44,8 @@ type PokemonSpeciesProps = {
   };
 };
 
-const PokemonSpeciesCard = ({ species }: PokemonSpeciesProps) => {
-  const { nationalPokedexEntryNumber, name, types, imageUrl } = species;
+const PokemonCard = ({ pokemon }: PokemonSpeciesProps) => {
+  const { nationalPokedexEntryNumber, name, types, imageUrl } = pokemon;
 
   const formattedNationalPokedexEntryNumber = `#${nationalPokedexEntryNumber
     .toString()
