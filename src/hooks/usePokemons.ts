@@ -5,7 +5,7 @@ type PokemonList = Awaited<ReturnType<typeof fetchPokemonPage>>["data"];
 
 export const usePokemons = () => {
   const { data, status, ...rest } = useInfiniteQuery({
-    queryKey: ["pokemon-species"],
+    queryKey: ["pokemon"],
     queryFn: ({ pageParam }) => fetchPokemonPage(pageParam),
     getNextPageParam: (lastPage) => lastPage.nextPage,
   });
