@@ -1,42 +1,32 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import { listAllSpecies } from "./api-clients/pokeapi";
+import { usePokemons } from "./hooks/usePokemons";
 import type { PokemonType } from "./PokemonType";
 import { TypeIcon } from "./TypeIcon";
 
 function App() {
   const [lastPokemonRef, lastPokemonIsInView] = useInView();
-  const { data, status, fetchNextPage } = useInfiniteQuery({
-    queryKey: ["pokemon-species"],
-    queryFn: ({ pageParam }) => listAllSpecies(pageParam),
-    getNextPageParam: (lastPage) => lastPage.nextPage,
-  });
+  const { fetchNextPage, pokemons } = usePokemons();
 
   if (lastPokemonIsInView) {
     fetchNextPage();
   }
 
-  if (status === "success") {
+  if (pokemons) {
     return (
       <main className="app">
         <h1 className="app__title">Pokédex</h1>
         <ul className="pokemon-species-list app__pokemon-species-list">
-          {data.pages.map(({ data: pokemonSpeciesList }, pagesIndex, pages) =>
-            pokemonSpeciesList.map((species, speciesListIndex) => {
-              const isLastElement =
-                pagesIndex === pages.length - 1 &&
-                speciesListIndex === pokemonSpeciesList.length - 1;
-
-              return (
-                <li
-                  key={species.nationalPokedexEntryNumber}
-                  ref={isLastElement ? lastPokemonRef : null}
-                >
-                  <PokemonSpeciesCard species={species} />
-                </li>
-              );
-            })
-          )}
+          {pokemons.map((pokemon, index) => {
+            const isLastElement = index === pokemons.length - 1;
+            return (
+              <li
+                key={pokemon.nationalPokedexEntryNumber}
+                ref={isLastElement ? lastPokemonRef : null}
+              >
+                <PokemonSpeciesCard species={pokemon} />
+              </li>
+            );
+          })}
         </ul>
       </main>
     );
