@@ -13,11 +13,6 @@ const queryClient = new QueryClient({
   },
 });
 
-let buster = "2";
-if (import.meta.env.DEV) {
-  buster = Math.random().toString();
-}
-
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
