@@ -61,16 +61,20 @@ const pokemonResourceSchema = z.object({
 
 const BASE_URL = "https://pokeapi.co/api/v2";
 
-export const fetchPokemonPage = async (page = 1) => {
-  const limit = 20;
-  const offset = limit * (page - 1);
-  let response = await fetch(
+const fetchPokemonSpeciesUrlPage = async (offset: number, limit: number) => {
+  const response = await fetch(
     `${BASE_URL}/pokemon-species/?offset=${offset}&limit=${limit}`
   );
 
-  const { results, count } = pokemonSpeciesUrlListSchema.parse(
-    await response.json()
-  );
+  return pokemonSpeciesUrlListSchema.parse(await response.json());
+};
+
+export const fetchPokemonPage = async (page = 1) => {
+  const limit = 20;
+  const offset = limit * (page - 1);
+
+  const { results, count } = await fetchPokemonSpeciesUrlPage(offset, limit);
+
   const numberOfPages = count / limit;
   const isLastPage = page === numberOfPages;
 
